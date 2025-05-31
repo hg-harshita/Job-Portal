@@ -15,8 +15,9 @@ import useGetCompanyById from '@/hooks/useGetCompanyById';
 
 const CompanySetup = () => {
   
-    
-    //useGetCompanyById(params.id);
+    const params = useParams();
+    useGetCompanyById(params.id);
+
     const [input, setInput] = useState({
     name: "",
     description: "",
@@ -28,7 +29,7 @@ const CompanySetup = () => {
   const {singleCompany} = useSelector(store=>store.company);
   const [loading, setLoading] = useState(false);
  
-  const params = useParams();
+  
    const navigate = useNavigate();
    
   const changeEventHandler = (e) => {
@@ -40,38 +41,35 @@ const CompanySetup = () => {
     setInput({...input, file});
   };
 
-  const submitHandler = async(e) => {
+   const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(input);
         const formData = new FormData();
         formData.append("name", input.name);
         formData.append("description", input.description);
         formData.append("website", input.website);
         formData.append("location", input.location);
-
-        if(input.file){
-          formData.append("file", input.file);
+        if (input.file) {
+            formData.append("file", input.file);
         }
-        try{
+        try {
             setLoading(true);
             const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
-              headers:{
-                'Content-Type':'multipart/form-data'
-              },
-               withCredentials:true
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true
             });
-
-            if(res.data.success){
-              toast.success(res.data.message);
-              navigate("/admin/companies");
+            if (res.data.success) {
+                toast.success(res.data.message);
+                navigate("/admin/companies");
             }
-        }catch(error){ 
-          console.log(error);
-          toast.error(error.response.data.message);
-        }finally{
-          setLoading(false);
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        } finally {
+            setLoading(false);
         }
-  }
+    }
 
    useEffect(() =>{
           setInput({

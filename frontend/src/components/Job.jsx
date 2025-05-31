@@ -29,7 +29,7 @@ const Job = ({ job }) => {
       <div className="flex items-center gap-2 my-2 ">
         <Button>
           <Avatar>
-            <AvatarImage src="https://static.vecteezy.com/system/resources/previews/000/392/153/original/modern-company-logo-design-vector.jpg" />
+            <AvatarImage src={job?.company?.logo} />
           </Avatar>
         </Button>
         <div>
